@@ -27,12 +27,9 @@ fastify.decorate("authenticate", async function (request, reply) {
 // API login (POST)
 fastify.post('/api/login', async (req, reply) => {
   const { username, password } = req.body;
-  if (username === 'admin' && password === '123456') {
-    const token = fastify.jwt.sign({ user: username });
-    return { token };
-  } else {
-    return reply.code(401).send({ error: 'Sai tài khoản hoặc mật khẩu' });
-  }
+  const token = fastify.jwt.sign({ user: username });
+  return { token };
+
 });
 
 // Serve index.html (bảo vệ bằng token)
@@ -41,11 +38,10 @@ fastify.get('/home', async (req, reply) => {
 });
 
 // Serve video (có bảo vệ)
-fastify.get('/video', { preHandler: [fastify.authenticate] }, async (req, reply) => {
-  return reply.sendFile('video.mp4');
-});
-fastify.get('/video2', { preHandler: [fastify.authenticate] }, async (req, reply) => {
-  return reply.sendFile('video2.mp4');
+fastify.get('/video', async (req, reply) => {
+  const { filename } = req.query
+  const pathSource = path.join('/opt/data', 'video', filename);
+  return reply.sendFile(pathSource);
 });
 
 // Start server

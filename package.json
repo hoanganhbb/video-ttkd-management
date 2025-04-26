@@ -16,5 +16,8 @@
     "fastify": "^5.3.2",
     "fastify-static": "^4.7.0",
     "mongoose": "^8.14.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.25.1"
   }
 }
