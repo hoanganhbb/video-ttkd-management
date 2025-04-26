@@ -50,7 +50,7 @@ fastify.get('/video', async (req, reply) => {
 });
 
 // Start server
-fastify.listen({ port: 3000 }, (err, addr) => {
+fastify.listen({ port: 8815 }, (err, addr) => {
   if (err) {
     fastify.log.error(err);
     process.exit(1);
