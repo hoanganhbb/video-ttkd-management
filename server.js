@@ -11,8 +11,13 @@ fastify.register(fastifyFormbody);
 fastify.register(fastifyJwt, { secret: 'supersecret123' });
 
 fastify.register(fastifyStatic, {
-  root: path.join(__dirname, 'public'),
+  root: path.join(__dirname, 'client/dist'),
   prefix: '/',
+});
+
+// Route fallback:
+fastify.setNotFoundHandler((request, reply) => {
+  reply.sendFile('index.html');
 });
 
 // Middleware JWT
@@ -33,9 +38,9 @@ fastify.post('/api/login', async (req, reply) => {
 });
 
 // Serve index.html (bảo vệ bằng token)
-fastify.get('/home', async (req, reply) => {
-  return reply.sendFile('index.html');
-});
+// fastify.get('/home', async (req, reply) => {
+//   return reply.sendFile('index.html');
+// });
 
 // Serve video (có bảo vệ)
 fastify.get('/video', async (req, reply) => {
